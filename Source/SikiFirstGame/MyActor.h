@@ -16,11 +16,35 @@ public:
 	AMyActor();
 
 	UPROPERTY(VisibleAnywhere, Category = "My Actor Components")
-	UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* MyStaticMesh;
 	
 	//只允许在实例上进行编辑
-	UPROPERTY(EditInstanceOnly, Category = "My Actor Properties | Verctor")
+	UPROPERTY(EditInstanceOnly, Category = "My Actor Properties | Vector")
 	FVector InitLocation;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "My Actor Properties | Vector")
+	FVector PlacedLocation;
+
+	UPROPERTY(EditDefaultsOnly, Category = "My Actor Properties | Bool")
+	bool bGotoIninLocation;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "My Actor Properties | Vector")
+	FVector WorldOrigin;
+
+	UPROPERTY(EditAnywhere, Category = "My Actor Properties | Vector")
+	FVector TickLocationOffset;
+	
+	UPROPERTY(EditAnywhere, Category = "My Actor Properties | Vector")
+	bool bShouldMove;
+
+	UPROPERTY(EditInstanceOnly, Category = "My Actor Properties | Physics")
+	FVector InitForce;
+
+	UPROPERTY(EditInstanceOnly, Category = "My Actor Properties | Physics")
+	FVector InitTorque;
+
+	UPROPERTY(EditInstanceOnly, Category = "My Actor Properties | Physics")
+	bool bAccelChange;
 
 protected:
 	// Called when the game starts or when spawned

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "MyActor.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 AMyActor::AMyActor()
@@ -9,9 +9,25 @@ AMyActor::AMyActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MyStaticMesh"));
+	MyStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MyStaticMesh"));
 
 	InitLocation = FVector(0.0f);
+
+	PlacedLocation = FVector(0.0f);
+
+	bGotoIninLocation = false;
+
+	WorldOrigin = FVector(0.0f);
+
+	TickLocationOffset = FVector(0.0f);
+
+	bShouldMove = false;
+
+	InitForce = FVector(0.0f);
+
+	InitTorque = FVector(0.0f);
+
+	bAccelChange = false;
 }
 
 // Called when the game starts or when spawned
@@ -19,13 +35,28 @@ void AMyActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetActorLocation(InitLocation);
+	PlacedLocation = GetActorLocation();
+
+	if (bGotoIninLocation)
+	{
+		SetActorLocation(InitLocation);
+	}
+
+	//MyStaticMesh->AddForce(InitForce,"NAME_NONE", bAccelChange);
+	//MyStaticMesh->AddTorque(InitTorque,"NAME_NONE", bAccelChange);
 }
 
 // Called every frame
 void AMyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bShouldMove)
+	{
+		FHitResult HitResult;
+		AddActorLocalOffset(TickLocationOffset, true, &HitResult);
+		UE_LOG(LogTemp, Warning, TEXT("X: %f, Y: %f, Z: %f"), HitResult.Location.X, HitResult.Location.Y, HitResult.Location.Z);
+	}
 
 }
 
